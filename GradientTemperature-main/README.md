@@ -5,3 +5,4 @@
 - The entitlements file (`scripts/entitlements.plist`) disables library validation so the embedded Python frameworks are accepted by macOS.
 - Local build example (on macOS with Xcode tools installed):
   `CODESIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)" NOTARIZE_APPLE_ID="apple-id@example.com" NOTARIZE_APPLE_PASSWORD="xxxx-xxxx-xxxx-xxxx" NOTARIZE_TEAM_ID="TEAMID" ./scripts/build-mac.sh`
+
