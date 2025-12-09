@@ -1,0 +1,113 @@
+{
+    "university_name": "Moscow State University",
+    "faculty_name": "Faculty of Computational Mathematics and Cybernetics",
+    "comp_demo": "Computer demonstration",
+    "subject_name": "Statistical physics course",
+    "project_title": "Particle motion in a temperature gradient",
+    "particle_size": "Bound particle size",
+    "temprature": "Temperature",
+    "molucul_num": "Number of molecules",
+    "elast_coeff": "Elasticity coefficient",
+    "nonline_coeff": "Nonlinearity coefficient",
+    "particle_mass": "Mass of bound particles",
+    "simul_speed": "Simulation speed",
+    "btn_demo": "Demonstration",
+    "btn_theory": "Theory",
+    "btn_authors": "Authors",
+    "btn_tutorial": "Tutorial",
+    "btn_exit": "Exit",
+    "btn_apply": "Apply",
+    "btn_mode": "Modes",
+    "btn_menu": "Main menu",
+    "btn_add_particles": "Add particles",
+    "btn_dim_enable": "Dim background",
+    "btn_dim_disable": "Restore colors",
+    "btn_trail_enable": "Show trail",
+    "btn_trail_disable": "Hide trail",
+    "btn_lang": "rus",
+    "btn_reset_counters": "Reset",
+    "graph_mean": "mean",
+    "graph_kin": "kinetic energy",
+    "graph_pot": "potential energy",
+    "panel_title_parameters": "Parameters",
+    "panel_title_charts": "Midplane heat flux",
+    "charts_placeholder": "Not enough data yet",
+    "flux_counts_label": "Q: {cumulative_display} units",
+    "flux_value_label": "Heat flux: {flux_display} units/s",
+    "flux_axis_units": "Units",
+    "graph_border_toggle": "Graph borders",
+    "slider_T_left": "Left wall temperature",
+    "slider_T_right": "Right wall temperature",
+    "slider_size_scale": "Particle size",
+    "slider_tagged_count": "Impurity particle count",
+    "counter_left": "Left",
+    "counter_right": "Right",
+    "label_concentration_left": "Left: {value:.2f} part/unit^2",
+    "label_concentration_right": "Right: {value:.2f} part/unit^2",
+    "author_pavshinsky": "Daniil Pavshinsky",
+    "author_kozlova": "Ekaterina Kozlova",
+    "lecturer": "Lecturer: Grigoriev Kirill Sergeevich",
+    "supervisor": "Supervisor: Chichigina Olga Aleksandrovna",
+    "menu_tutorial": {
+        "title": "How to use the demo",
+        "sections": [
+            {
+                "heading": "Main actions",
+                "items": [
+                    "- Press \"Demonstration\" to open the interactive scene and tweak parameters in real time.",
+                    "- \"Theory\" and \"Authors\" show reference sections, while \"Exit\" closes the program.",
+                    "- The RU/EN pill in the header switches the interface language; you can tap it anytime."
+                ]
+            },
+            {
+                "heading": "Slider controls",
+                "items": [
+                    "- \"Number of molecules\" sets how many particles live inside the box. Click \"Apply\" afterward to rebuild the system.",
+                    "- \"Simulation speed\" accelerates or slows the integrator; values above 1.0 speed the dynamics up.",
+                    "- \"Left wall temperature\" and \"Right wall temperature\" modify the boundary conditions instantly and recolor the walls to show the heat gradient.",
+                    "- \"Particle scale\" enlarges or shrinks the rendered particles together with their collision radius.",
+                    "- \"Tagged particles\" defines how many highlighted particles appear after you press \"Add particles\".",
+                    "- \"Particle size\" and other physical coefficients (elasticity, nonlinearity, mass) influence how collisions behave."
+                ]
+            },
+            {
+                "heading": "Inside the demonstration",
+                "items": [
+                    "- \"Add particles\" injects the requested amount of tagged particles so their trajectories are easier to follow.",
+                    "- \"Apply\" pushes every slider value (except the live wall temperatures) into the simulator and restarts the run.",
+                    "- \"Dim background/Restore colors\" toggles a calmer palette for untagged particles, while \"Show trail/Hide trail\" draws a trajectory for the highlighted particle.",
+                    "- \"Reset\" clears the heat-flux counters; the right-hand panel reports the current flux and accumulated energy.",
+                    "- \"Show graph borders\" locks the axis range so you can compare different runs more easily.",
+                    "- The \"Main menu\" button leaves the scene; restarting from the menu resets the simulation state."
+                ]
+            },
+            {
+                "heading": "Observations and measurements",
+                "items": [
+                    "- The right panel displays the current heat flux and accumulated energy; values update in real time.",
+                    "- Wall hit counters (left/right) help you see how energy transfer balances between boundaries.",
+                    "- Mean kinetic and potential energies are plotted so you can track the approach to steady state."
+                ]
+            },
+            {
+                "heading": "Controls and tips",
+                "items": [
+                    "- Use the mouse wheel on the \"Tutorial\" text to scroll longer instructions.",
+                    "- After adjusting several sliders, press \"Apply\" once to commit all changes together.",
+                    "- For large temperature differences, lowering particle count or size can keep the simulation smooth."
+                ]
+            }
+        ]
+    },
+    "contacts_label": "Contacts",
+    "author_contacts": {
+        "author_pavshinsky": [
+            "email@example.com",
+            "@telegram"
+        ],
+        "author_kozlova": [
+            "email@example.com",
+            "@telegram"
+        ]
+    }
+}
