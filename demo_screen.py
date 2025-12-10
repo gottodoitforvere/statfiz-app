@@ -14,6 +14,7 @@ import config
 from onboarding import OnboardingGuide
 from ui_base import ResponsiveScreen, get_font, build_vertical_gradient, calc_scale
 
+MIN_TOTAL_PARTICLES = 5
 MAX_TOTAL_PARTICLES = 500
 
 
@@ -760,6 +761,12 @@ class DemoScreen(ResponsiveScreen):
             if name_par == 'r':
                 step = 5
                 dec_number = 0
+                min_bound, max_bound = bounds
+                min_bound = max(MIN_TOTAL_PARTICLES, min_bound)
+                max_bound = min(MAX_TOTAL_PARTICLES, max_bound)
+                if max_bound < min_bound:
+                    max_bound = min_bound
+                bounds = (min_bound, max_bound)
             min_val, max_val = bounds
             if max_val <= min_val:
                 clamped_value = min_val
@@ -785,8 +792,8 @@ class DemoScreen(ResponsiveScreen):
         # Additional sliders
         default_left_bounds = (500.0, 2000.0)
         default_right_bounds = (100.0, 500.0)
-        default_left_initial = 800.0
-        default_right_initial = 300.0
+        default_left_initial = 500.0
+        default_right_initial = 500.0
         try:
             wall_section = config.ConfigLoader()['wall_temperatures']
         except (KeyError, TypeError):
@@ -818,6 +825,8 @@ class DemoScreen(ResponsiveScreen):
         right_entry = wall_section.get('right') if wall_section else None
         if right_entry is None and isinstance(wall_section, dict):
             right_entry = wall_section.get('T_right')
+        if right_entry is None:
+            right_entry = left_entry
 
         initial_T_left, left_bounds = _wall_values(left_entry, default_left_initial, default_left_bounds)
         initial_T_right, right_bounds = _wall_values(right_entry, default_right_initial, default_right_bounds)
@@ -916,7 +925,11 @@ class DemoScreen(ResponsiveScreen):
         """Ensure particle-count slider changes take effect immediately."""
         if not self.demo or self.slider_particle_count is None:
             return
-        new_count = max(0, int(self.slider_particle_count.getValue()))
+        try:
+            raw_count = int(self.slider_particle_count.getValue())
+        except (TypeError, ValueError):
+            raw_count = self._last_particle_count or MIN_TOTAL_PARTICLES
+        new_count = max(MIN_TOTAL_PARTICLES, min(MAX_TOTAL_PARTICLES, raw_count))
         if self._last_particle_count == new_count:
             return
         self.demo_config['params']['r'] = new_count
@@ -1644,11 +1657,11 @@ class DemoScreen(ResponsiveScreen):
         )
         steps.append(
             {
-                'title': "Число отмеченных частиц" if lang_ru else "Tagged particles count",
+                'title': "Число частиц примеси" if lang_ru else "Impurity particles count",
                 'body': (
-                    "Число отмеченных частиц отвечает за то, сколько новых черных частиц вы хотите добавить в центр симуляции"
+                    "Число частиц примеси отвечает за то, сколько новых черных частиц вы хотите добавить в центр симуляции. Эти частицы не отличаются по физическим свойствам от других частиц в симуляции, только цветом."
                     if lang_ru
-                    else "Tagged-particle count is responsible for the amount of black particles that you are able to add to the center of the simulation."
+                    else "Impurity particle count is responsible for the amount of black particles that you are able to add to the center of the simulation. They have the same physical attributes as other in the simulation."
                 ),
                 'rects': self._rects_for_sliders(['tagged_count']),
                 'placement': 'top',

@@ -15,7 +15,8 @@ class TutorialScreen(ResponsiveScreen):
         self.lang = language.Language()
 
         self.primary_color = (72, 104, 255)
-        self.text_color = (35, 38, 46)
+        # Use pure black so tutorial text stays high-contrast on all displays.
+        self.text_color = (0, 0, 0)
         self.muted_text = (0, 0, 0)
 
         self.background: pygame.Surface | None = None

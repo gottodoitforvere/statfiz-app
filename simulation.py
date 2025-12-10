@@ -32,6 +32,8 @@ from typing import Deque, Dict, Optional, Tuple, Union
 import numpy as np
 from numpy import ndarray
 
+from paths import resource_file
+
 ################################################################################
 # Thermal wall utility functions
 ################################################################################
@@ -65,8 +67,10 @@ def _load_app_config_dict() -> Optional[dict]:
     global _APP_CONFIG_CACHE
     if _APP_CONFIG_CACHE is not None:
         return _APP_CONFIG_CACHE
-
-    cfg_path = Path(__file__).resolve().parent / 'config.json'
+    try:
+        cfg_path = resource_file('config.json')
+    except Exception:
+        cfg_path = Path(__file__).resolve().parent / 'config.json'
     if not cfg_path.exists():
         alt = Path.cwd() / 'config.json'
         if alt.exists():
@@ -188,8 +192,8 @@ class ThermalWallConfig:
         Temperatures (K) of the left and right walls.  A higher temperature
         results in particles leaving the wall with higher average speed.
     """
-    T_left: float = 600.0
-    T_right: float = 300.0
+    T_left: float = 500.0
+    T_right: float = 500.0
 
 
 def _load_thermal_wall_config() -> ThermalWallConfig:
@@ -215,6 +219,8 @@ def _load_thermal_wall_config() -> ThermalWallConfig:
 
     left_entry = section.get('left', section.get('T_left'))
     right_entry = section.get('right', section.get('T_right'))
+    if right_entry is None:
+        right_entry = left_entry
     return ThermalWallConfig(
         T_left=_extract(left_entry, defaults.T_left),
         T_right=_extract(right_entry, defaults.T_right),
