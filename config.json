@@ -93,7 +93,7 @@
     "csv_interval": 0.0
   },
   "onboarding": {
-    "menu_done": true,
-    "demo_done": true
+    "menu_done": false,
+    "demo_done": false
   }
 }
