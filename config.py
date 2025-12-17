@@ -74,15 +74,18 @@ class ConfigLoader(object):
         self._write()
 
     def _write(self) -> None:
+        if self._path == self._default_path:
+            return
         with self._path.open("w", encoding="utf-8") as f:
             json.dump(obj=dict(self._loader), fp=f, ensure_ascii=False, indent=2, separators=(',', ': '))
 
     def _resolve_path(self) -> Path:
-        if is_frozen():
-            user_path = user_config_path()
+        user_path = user_config_path()
+        try:
             self._ensure_user_config(user_path)
             return user_path
-        return self._default_path
+        except OSError:
+            return self._default_path
 
     def _ensure_user_config(self, target_path: Path) -> None:
         target_path.parent.mkdir(parents=True, exist_ok=True)
