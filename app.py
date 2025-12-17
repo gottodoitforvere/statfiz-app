@@ -9,6 +9,7 @@ import language
 from authors_screen import AuthorsScreen
 from demo_screen import DemoScreen
 from menu_screen import MenuScreen
+from onboarding_state import OnboardingState
 from theory_screen import TheoryScreen
 from tutorial_screen import TutorialScreen
 
@@ -30,7 +31,7 @@ class App:
 
         self.clock = pygame.time.Clock()
         self._config = config.ConfigLoader()
-        self._ensure_onboarding_defaults()
+        self._onboarding_state = OnboardingState()
 
         self.menu_screen = MenuScreen(self)
         self.authors_screen = AuthorsScreen(self)
@@ -39,10 +40,9 @@ class App:
         self.tutorial_screen = TutorialScreen(self)
 
         # Onboarding state flags shared across screens
-        self.onboarding_menu_done = False
-        self.onboarding_demo_done = False
+        self.onboarding_menu_done = self._onboarding_state.menu_done
+        self.onboarding_demo_done = self._onboarding_state.demo_done
         self.onboarding_demo_pending = False
-        self._load_onboarding_state()
 
         self._screens = (
             self.menu_screen,
@@ -133,31 +133,13 @@ class App:
         return fallback
 
     # ------------------------------------------------------------------ Onboarding state
-    def _ensure_onboarding_defaults(self) -> None:
-        cfg = self._config
-        cfg.ensure('onboarding', {'menu_done': False, 'demo_done': False})
-
-    def _load_onboarding_state(self) -> None:
-        try:
-            onboarding_cfg = self._config['onboarding']
-        except Exception:
-            onboarding_cfg = {'menu_done': False, 'demo_done': False}
-        self.onboarding_menu_done = bool(onboarding_cfg.get('menu_done', False))
-        self.onboarding_demo_done = bool(onboarding_cfg.get('demo_done', False))
-
     def mark_onboarding_done(self, key: str) -> None:
         """Persist completion state so onboarding is only shown once."""
         valid = {'menu_done', 'demo_done'}
         if key not in valid:
             return
-        try:
-            self._config.set(('onboarding', key), True)
-        except Exception:
-            self._ensure_onboarding_defaults()
-            try:
-                self._config.set(('onboarding', key), True)
-            except Exception:
-                pass
+        if not self._onboarding_state.mark_done(key):
+            return
         if key == 'menu_done':
             self.onboarding_menu_done = True
         elif key == 'demo_done':
